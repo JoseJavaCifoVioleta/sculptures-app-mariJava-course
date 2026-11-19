@@ -26,9 +26,10 @@ export default function App() {
           {/* TODO: "sculptures/new" → form (Create) */}
           <Route path="/sculptures/new" element={<SculptureFormPage />}/>
           {/* TODO: "sculptures/:id/edit" → form (Update) */}
-          {/* TODO: "*" → NoPage */} 
           <Route path="/sculptures/filter" element={<SculptureFilterPage />}/>
           <Route path="/sculptures/remove" element={<SculptureRemovePage />}/>
+		  {/* TODO: "*" → NoPage */} 
+		  <Route path="*" element={<h2>404 — Página no encontrada</h2>} />
         </Route>
       
       </Routes>

@@ -28,12 +28,12 @@ export default function SculptureFormPage() {
   return (
     <div> 
       
-      <div>SculptureRemovePage
-      </div>  
+      <h2 style={{ textAlign: "center" }}>SculptureRemovePage
+      </h2>  
       
 
 
-        <table> 
+        <table style={{ margin: "0 auto" }}> 
           <tbody>
           {sculptures.map((sculpt, index) => (
 

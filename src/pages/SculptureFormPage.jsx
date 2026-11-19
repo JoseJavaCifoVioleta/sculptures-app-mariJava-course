@@ -34,7 +34,7 @@ export default function SculptureFormPage() {
     e.preventDefault();
     setSculptures([
       ...sculptureList, 
-      { id: "banana", 
+      { id: "", 
         name: e.target.name.value,
         artist : e.target.artist.value,
         year : e.target.year.value,
@@ -59,70 +59,78 @@ export default function SculptureFormPage() {
   return (
     <div> 
 
-    <form onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit}
+				style={{
+				  display: "flex",
+				  flexDirection: "column",
+				  gap: "12px",
+				  maxWidth: "400px",
+				  margin: "0 auto",
+				}}
+		>
 
       
-      <div>SculptureFormPage
-      </div>  
-      
-       <label>
-        Name:
-        <input name="name"
-          value={sculpture.name}  
-          onChange={handleChange}       
-        />
-      </label>
-       <label>
-        Artist:
-        <input name="artist"
-          value={sculpture.artist}  
-          onChange={handleChange}       
-        />
-      </label>
+		  <h2>SculptureFormPage
+		  </h2>  
+		  
+		   <label  style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+			Name:
+			<input name="name"
+			  value={sculpture.name}  
+			  onChange={handleChange}       
+			/>
+		  </label>
+		   <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+			Artist:
+			<input name="artist"
+			  value={sculpture.artist}  
+			  onChange={handleChange}       
+			/>
+		  </label>
 
-       <label>
-        Name:
-        <input name="year"
-          value={sculpture.year}  
-          onChange={handleChange}       
-        />
-      </label>
-       <label>
-        Name:
-        <input name="location"
-          value={sculpture.location}  
-          onChange={handleChange}       
-        />
-      </label>
-       <label>
-        Name:
-        <input name="url"
-          value={sculpture.url}  
-          onChange={handleChange}       
-        />
-      </label>
-       <label>
-        Name:
-        <input name="alt"
-          value={sculpture.alt}  
-          onChange={handleChange}       
-        />
-      </label>
-       <label>
-        Name:
-        <textarea name="description"
-          value={sculpture.description}  
-          onChange={handleChange}       
-        />
-      </label>
-    
-      {/* TODO: one controlled <input> per field, <textarea> for description */}
-      <button type="submit">{isEdit ? "Save changes" : "Create sculpture"}</button>
-    </form>
-    {sculpture.name}
-    <ul>
-    {sculptures.map((sculptur) => (<li key={sculptur.id}>{sculptur.name + " - " + sculptur.artist}</li>))}
-    </ul>
+		   <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+			Year:
+			<input name="year"
+			  value={sculpture.year}  
+			  onChange={handleChange}       
+			/>
+		  </label>
+		   <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+			Location:
+			<input name="location"
+			  value={sculpture.location}  
+			  onChange={handleChange}       
+			/>
+		  </label>
+		   <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+			URL:
+			<input name="url"
+			  value={sculpture.url}  
+			  onChange={handleChange}       
+			/>
+		  </label>
+		   <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+			Alternative Text:
+			<input name="alt"
+			  value={sculpture.alt}  
+			  onChange={handleChange}       
+			/>
+		  </label>
+		   <label style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+			Description:
+			<textarea name="description"
+			  value={sculpture.description}  
+			  onChange={handleChange}       
+			/>
+		  </label>
+		
+		  {/* TODO: one controlled <input> per field, <textarea> for description */}
+		  <button type="submit" style={{ alignSelf: "flex-start" }}>{isEdit ? "Save changes" : "Create sculpture"}</button>
+		</form>
+		
+		<ul style={{listStyleType: 'none'}}>
+			{sculptures.map((sculptur) => (<li key={sculptur.id} >{sculptur.name + " - " + sculptur.artist}</li>))}
+		</ul>
     </div>
   );
 }

@@ -32,8 +32,8 @@ export default function SculptureFormPage() {
   return (
     <div> 
       
-      <div>SculptureFilterPage
-      </div>  
+      <h2>SculptureFilterPage
+      </h2>  
       
       
        <label>
@@ -45,7 +45,7 @@ export default function SculptureFormPage() {
       </label>
     
 
-    <ul>
+    <ul  style={{listStyleType: 'none'}}>
       {year}
       {year===""?  
         sculptureList.map((sculptur) => (<li key={sculptur.id}>{sculptur.name + " - " + sculptur.artist + " - " +sculptur.year}</li>)):

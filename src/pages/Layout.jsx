@@ -10,19 +10,19 @@ export default function Layout() {
         {/* Hint: NavLink adds an "active" class — style it */}
         <ul style={{listStyleType: 'none'}}>
           <li>
-            <Link to="/">Home</Link>
+            <NavLink to="/">Home</NavLink >
           </li>
           <li>
-            <Link to="/sculptures/0">Detail</Link>
+            <NavLink to="/sculptures/0">Detail</NavLink>
           </li>
           <li>
-            <Link to="/sculptures/new">New</Link>
+            <NavLink to="/sculptures/new">New</NavLink>
           </li>
           <li>
-            <Link to="/sculptures/filter">Filter</Link>
+            <NavLink to="/sculptures/filter">Filter</NavLink>
           </li>
           <li>
-            <Link to="/sculptures/remove">Remove</Link>
+            <NavLink to="/sculptures/remove">Remove</NavLink>
           </li>
         </ul>
 

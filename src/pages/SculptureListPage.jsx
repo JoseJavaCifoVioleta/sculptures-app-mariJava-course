@@ -57,6 +57,7 @@ export default function SculptureListPage() {
     <p>({index+1} of {sculptureList.length})</p>
     <p>{sculptureList[index].name}</p>
     <p>{sculptureList[index].year}</p>
+	{sculptureList[index].location && <h3>Location: {sculptureList[index].location}</h3>}
     <img src= {sculptureList[index].url} width="80" alt={sculptureList[index].alt}/>
     <p>{sculptureList[index].description}</p>
     </>

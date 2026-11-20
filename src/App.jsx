@@ -6,6 +6,7 @@ import SculptureDetailPage from "./pages/SculptureDetailPage.jsx";
 import SculptureFormPage from "./pages/SculptureFormPage.jsx";
 import SculptureFilterPage from "./pages/SculptureFilterPage.jsx";
 import SculptureRemovePage from "./pages/SculptureRemovePage.jsx";
+import TeamRowingPage from "./pages/TeamRowingPage.jsx";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="/sculptures/:id/edit" element={<SculptureFormPage />} />
           <Route path="/sculptures/filter" element={<SculptureFilterPage />} />
           <Route path="/sculptures/remove" element={<SculptureRemovePage />} />
+          <Route path="/team" element={<TeamRowingPage />} />
           <Route path="*" element={<h2>404 — Página no encontrada</h2>} />
         </Route>
       </Routes>

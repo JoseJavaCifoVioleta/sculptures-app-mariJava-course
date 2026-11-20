@@ -11,6 +11,8 @@ export default function SculptureListPage() {
   const [loop, setLoop] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [animated, setAnimated] = useState(false);
+  const [starCount, setStarCount] = useState(0);
+  const [stars, setStars] = useState([]);
   const navigate = useNavigate();
 
   if (loading) return <p>Cargando esculturas desde Neon...</p>;
@@ -79,6 +81,27 @@ export default function SculptureListPage() {
 
   function handlerOnChangeAnimated(e) {
     setAnimated(e.target.checked);
+  }
+
+  function handlerOnClickSharona(e) {
+    setStarCount(starCount + 1);
+
+    // Creamos 6 estrellitas que saldrán disparadas
+    const newStars = [
+      { id: Date.now() + 1, tx: "-50px", ty: "-70px" },
+      { id: Date.now() + 2, tx: "-20px", ty: "-90px" },
+      { id: Date.now() + 3, tx: "15px", ty: "-85px" },
+      { id: Date.now() + 4, tx: "45px", ty: "-70px" },
+      { id: Date.now() + 5, tx: "0px", ty: "-110px" },
+      { id: Date.now() + 6, tx: "-35px", ty: "-50px" },
+    ];
+
+    setStars(newStars);
+
+    // Quitamos las estrellitas después de 1 segundo
+    setTimeout(() => {
+      setStars([]);
+    }, 1200);
   }
 
   return (
@@ -179,12 +202,47 @@ export default function SculptureListPage() {
       </div>
 
       <br />
-      <div>
+      <div style={{ display: "flex", gap: "12px", alignItems: "center", justifyContent: "center" }}>
         <button onClick={handlerOnClickLike}>
           {likes[currentSculpture.id] ? "❤️ Liked" : "🤍 Like"}
         </button>
-        {likes[currentSculpture.id] && <p>Te gusta esta escultura!</p>}
+
+        {/* Botón especial Mi-Sharona con animación de estrellitas */}
+        <div style={{ position: "relative", display: "inline-block" }}>
+          <button
+            onClick={handlerOnClickSharona}
+            style={{
+              backgroundColor: "#ffeb3b",
+              color: "#333",
+              border: "2px solid #fbc02d",
+              borderRadius: "20px",
+              padding: "6px 14px",
+              fontWeight: "bold",
+              cursor: "pointer",
+            }}
+          >
+            ⭐ Mi-Sharona {starCount > 0 && `(${starCount})`}
+          </button>
+
+          {/* Renderizado de las estrellitas flotantes */}
+          {stars.map((star) => (
+            <span
+              key={star.id}
+              className="star-particle"
+              style={{
+                "--tx": star.tx,
+                "--ty": star.ty,
+                top: "0px",
+                left: "40%",
+              }}
+            >
+              ✨⭐
+            </span>
+          ))}
+        </div>
       </div>
+
+      {likes[currentSculpture.id] && <p>Te gusta esta escultura!</p>}
 
       <br />
       <div>

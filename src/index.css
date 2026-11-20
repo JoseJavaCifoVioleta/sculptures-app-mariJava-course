@@ -109,3 +109,23 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* Animación de estrellitas para el botón Mi-Sharona */
+@keyframes floatStar {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx, 0px), var(--ty, -60px)) scale(1.6) rotate(180deg);
+  }
+}
+
+.star-particle {
+  position: absolute;
+  pointer-events: none;
+  font-size: 22px;
+  animation: floatStar 1.2s ease-out forwards;
+  z-index: 999;
+}

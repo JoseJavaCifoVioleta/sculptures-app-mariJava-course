@@ -6,6 +6,8 @@ import { useSculptures } from "../SculpturesContext";
 export default function SculptureListPage() {
   const { sculptures, loading, error } = useSculptures();
   const [index, setIndex] = useState(0);
+  const [likes, setLikes] = useState({});
+  const [color, setColor] = useState("white");
   const navigate = useNavigate();
 
   if (loading) return <p>Cargando esculturas desde Neon...</p>;
@@ -17,19 +19,39 @@ export default function SculptureListPage() {
   const currentSculpture = sculptures[currentIndex];
 
   function handlerOnClickPrev() {
-    setIndex((prev) => Math.max(0, prev - 1));
+    setIndex(index - 1);
   }
 
   function handlerOnClickNext() {
-    setIndex((prev) => Math.min(sculptures.length - 1, prev + 1));
+    setIndex(index + 1);
   }
 
   function handlerOnClickImage(id) {
     navigate(`/sculptures/${id}`);
   }
 
+  function handlerOnClickLike() {
+    const currentId = currentSculpture.id;
+    setLikes({
+      ...likes,
+      [currentId]: !likes[currentId]
+    });
+  }
+
+  function handlerOnClickColor() {
+    if (color === "white") {
+      setColor("lightblue");
+    } else if (color === "lightblue") {
+      setColor("lightgreen");
+    } else if (color === "lightgreen") {
+      setColor("lightpink");
+    } else {
+      setColor("white");
+    }
+  }
+
   return (
-    <>
+    <div style={{ backgroundColor: color, padding: "20px" }}>
       <br />
       <h2>Sculptures Gallery</h2>
       <div>
@@ -74,6 +96,20 @@ export default function SculptureListPage() {
       {currentSculpture.location && <h3>Location: {currentSculpture.location}</h3>}
       <img src={currentSculpture.url} width="160" alt={currentSculpture.alt} />
       <p>{currentSculpture.description}</p>
-    </>
+
+      <div>
+        <button onClick={handlerOnClickLike}>
+          {likes[currentSculpture.id] ? "❤️ Liked" : "🤍 Like"}
+        </button>
+        {likes[currentSculpture.id] && <p>Te gusta esta escultura!</p>}
+      </div>
+
+      <br />
+      <div>
+        <button onClick={handlerOnClickColor}>
+          Cambiar color de fondo
+        </button>
+      </div>
+    </div>
   );
 }

@@ -1,57 +1,51 @@
-import { useState } from "react";
-import { useParams, useNavigate, useOutletContext } from "react-router-dom";
-import { sculptureList } from "../data";
+import { useSculptures } from "../SculpturesContext";
 
+export default function SculptureRemovePage() {
+  const { sculptures, loading, error, removeSculpture } = useSculptures();
 
+  if (loading) return <p>Cargando esculturas...</p>;
+  if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
 
-export default function SculptureFormPage() {
-  const { id } = useParams(); // defined → edit mode
-  const isEdit = Boolean(id);
-  const navigate = useNavigate();
-
-  const [sculptures, setSculptures] = useState(sculptureList)
-  
-    
-  //const sculptFilter = sculptureList.filter(sculpture =>
-    //sculpture.year === year
-  //);
-  
-  //const { /* TODO: get sculptures + handlers from context */ } = useOutletContext();
-
-  // TODO: initialise form state from existing sculpture (edit) or blanks (create)
-  // Fields: name, artist, year, location, url, alt, description
-
-  function handleRemove(index) {
-    setSculptures(sculptures.filter(sculptur => sculptur.id!==index))
+  async function handleRemove(id, name) {
+    if (window.confirm(`¿Estás seguro de eliminar "${name}" de Neon?`)) {
+      await removeSculpture(id);
+    }
   }
 
   return (
-    <div> 
-      
-      <h2 style={{ textAlign: "center" }}>SculptureRemovePage
-      </h2>  
-      
+    <div>
+      <h2 style={{ textAlign: "center" }}>Eliminar Esculturas (Neon DB)</h2>
 
-
-        <table style={{ margin: "0 auto" }}> 
-          <tbody>
-          {sculptures.map((sculpt, index) => (
-
-            <tr key={index}>
-              <td>{sculpt.id}</td>
-              <td>{sculpt.name}</td>
-              <td>{sculpt.artist}</td>
-              <td>{sculpt.year}</td>
-              <td></td>
-              
-
-              <td><button onClick = {()=>handleRemove(sculpt.id)}>Remove </button></td>
+      {sculptures.length === 0 ? (
+        <p style={{ textAlign: "center" }}>No hay esculturas para eliminar.</p>
+      ) : (
+        <table style={{ margin: "0 auto", borderCollapse: "collapse", width: "80%" }}>
+          <thead>
+            <tr style={{ borderBottom: "1px solid #ccc", textAlign: "left" }}>
+              <th style={{ padding: "8px" }}>ID</th>
+              <th style={{ padding: "8px" }}>Nombre</th>
+              <th style={{ padding: "8px" }}>Artista</th>
+              <th style={{ padding: "8px" }}>Año</th>
+              <th style={{ padding: "8px" }}>Acción</th>
             </tr>
-          ))}
+          </thead>
+          <tbody>
+            {sculptures.map((sculpt) => (
+              <tr key={sculpt.id} style={{ borderBottom: "1px solid #eee" }}>
+                <td style={{ padding: "8px" }}>{sculpt.id}</td>
+                <td style={{ padding: "8px" }}>{sculpt.name}</td>
+                <td style={{ padding: "8px" }}>{sculpt.artist}</td>
+                <td style={{ padding: "8px" }}>{sculpt.year}</td>
+                <td style={{ padding: "8px" }}>
+                  <button onClick={() => handleRemove(sculpt.id, sculpt.name)}>
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
-
         </table>
-   
+      )}
     </div>
   );
 }

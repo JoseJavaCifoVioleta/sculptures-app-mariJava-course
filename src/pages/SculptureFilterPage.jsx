@@ -1,56 +1,66 @@
-// src/pages/SculptureFormPage.jsx
 import { useState } from "react";
-import { useParams, useNavigate, useOutletContext } from "react-router-dom";
-import { sculptureList } from "../data";
+import { useSculptures } from "../SculpturesContext";
 
+export default function SculptureFilterPage() {
+  const { sculptures, loading, error } = useSculptures();
+  const [year, setYear] = useState("");
 
-
-export default function SculptureFormPage() {
-  const { id } = useParams(); // defined → edit mode
-  const isEdit = Boolean(id);
-  const navigate = useNavigate();
-
-  //const [sculptures, setSculptures] = useState(sculptureList)
-  
-  const [year, setYear] = useState("")
-    //if (year === "") 
-  
-  const sculptFilter = sculptureList.filter(sculpture =>
-    sculpture.year === year
-  );
-  
-  //const { /* TODO: get sculptures + handlers from context */ } = useOutletContext();
-
-  // TODO: initialise form state from existing sculpture (edit) or blanks (create)
-  // Fields: name, artist, year, location, url, alt, description
+  if (loading) return <p>Cargando esculturas...</p>;
+  if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
 
   function handleChange(e) {
-    //setYear([e.target.name] = e.target.value);
     setYear(e.target.value);
   }
 
-  return (
-    <div> 
-      
-      <h2>SculptureFilterPage
-      </h2>  
-      
-      
-       <label>
-        Name:
-        <input name="year"
-          value={year}  
-          onChange={handleChange}       
-        />
-      </label>
-    
+  // Filter in memory from shared reactive sculptures state
+  const filteredSculptures =
+    year.trim() === ""
+      ? sculptures
+      : sculptures.filter((s) => String(s.year) === year.trim());
 
-    <ul  style={{listStyleType: 'none'}}>
-      {year}
-      {year===""?  
-        sculptureList.map((sculptur) => (<li key={sculptur.id}>{sculptur.name + " - " + sculptur.artist + " - " +sculptur.year}</li>)):
-        sculptureList.filter(sculptur => sculptur.year==year).map((sculptur) => (<li key={sculptur.id}>{sculptur.name + " - " + sculptur.artist + " - " +sculptur.year}</li>))}
-    </ul>
+  return (
+    <div>
+      <h2>Filtrar Esculturas por Año</h2>
+
+      <div style={{ marginBottom: "16px" }}>
+        <label>
+          Año:{" "}
+          <input
+            name="year"
+            type="number"
+            placeholder="Ej: 2024"
+            value={year}
+            onChange={handleChange}
+          />
+        </label>
+        {year && (
+          <button
+            onClick={() => setYear("")}
+            style={{ marginLeft: "8px" }}
+          >
+            Limpiar filtro
+          </button>
+        )}
+      </div>
+
+      <p>
+        Mostrando {filteredSculptures.length} de {sculptures.length} esculturas
+      </p>
+
+      <ul style={{ listStyleType: "none", padding: 0 }}>
+        {filteredSculptures.map((sculptur) => (
+          <li
+            key={sculptur.id}
+            style={{
+              padding: "8px",
+              borderBottom: "1px solid #ddd",
+              maxWidth: "500px",
+            }}
+          >
+            <strong>{sculptur.name}</strong> — {sculptur.artist} ({sculptur.year})
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

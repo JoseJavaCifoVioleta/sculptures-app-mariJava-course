@@ -8,6 +8,7 @@ export default function SculptureListPage() {
   const [index, setIndex] = useState(0);
   const [likes, setLikes] = useState({});
   const [color, setColor] = useState("white");
+  const [loop, setLoop] = useState(false);
   const navigate = useNavigate();
 
   if (loading) return <p>Cargando esculturas desde Neon...</p>;
@@ -19,11 +20,27 @@ export default function SculptureListPage() {
   const currentSculpture = sculptures[currentIndex];
 
   function handlerOnClickPrev() {
-    setIndex(index - 1);
+    if (loop) {
+      if (currentIndex === 0) {
+        setIndex(sculptures.length - 1);
+      } else {
+        setIndex(index - 1);
+      }
+    } else {
+      setIndex(index - 1);
+    }
   }
 
   function handlerOnClickNext() {
-    setIndex(index + 1);
+    if (loop) {
+      if (currentIndex === sculptures.length - 1) {
+        setIndex(0);
+      } else {
+        setIndex(index + 1);
+      }
+    } else {
+      setIndex(index + 1);
+    }
   }
 
   function handlerOnClickImage(id) {
@@ -48,6 +65,10 @@ export default function SculptureListPage() {
     } else {
       setColor("white");
     }
+  }
+
+  function handlerOnChangeLoop(e) {
+    setLoop(e.target.checked);
   }
 
   return (
@@ -78,13 +99,29 @@ export default function SculptureListPage() {
           ))}
         </ul>
       </div>
-      <button id="previous" onClick={handlerOnClickPrev} disabled={currentIndex === 0}>
+
+      <div style={{ marginBottom: "10px" }}>
+        <label>
+          <input
+            type="checkbox"
+            checked={loop}
+            onChange={handlerOnChangeLoop}
+          />
+          {" "}Activar Loop (dar la vuelta)
+        </label>
+      </div>
+
+      <button
+        id="previous"
+        onClick={handlerOnClickPrev}
+        disabled={!loop && currentIndex === 0}
+      >
         Previous
       </button>
       <button
         id="next"
         onClick={handlerOnClickNext}
-        disabled={currentIndex === sculptures.length - 1}
+        disabled={!loop && currentIndex === sculptures.length - 1}
       >
         Next
       </button>

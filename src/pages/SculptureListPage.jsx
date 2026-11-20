@@ -10,6 +10,7 @@ export default function SculptureListPage() {
   const [color, setColor] = useState("white");
   const [loop, setLoop] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [animated, setAnimated] = useState(false);
   const navigate = useNavigate();
 
   if (loading) return <p>Cargando esculturas desde Neon...</p>;
@@ -76,6 +77,10 @@ export default function SculptureListPage() {
     setShowMore(!showMore);
   }
 
+  function handlerOnChangeAnimated(e) {
+    setAnimated(e.target.checked);
+  }
+
   return (
     <div style={{ backgroundColor: color, padding: "20px" }}>
       <br />
@@ -116,6 +121,17 @@ export default function SculptureListPage() {
         </label>
       </div>
 
+      <div style={{ marginBottom: "10px" }}>
+        <label>
+          <input
+            type="checkbox"
+            checked={animated}
+            onChange={handlerOnChangeAnimated}
+          />
+          {" "}Activar animación en la imagen
+        </label>
+      </div>
+
       <button
         id="previous"
         onClick={handlerOnClickPrev}
@@ -136,7 +152,20 @@ export default function SculptureListPage() {
       <p><strong>{currentSculpture.name}</strong> - {currentSculpture.artist}</p>
       <p>{currentSculpture.year}</p>
       {currentSculpture.location && <h3>Location: {currentSculpture.location}</h3>}
-      <img src={currentSculpture.url} width="160" alt={currentSculpture.alt} />
+
+      <div>
+        <img
+          src={currentSculpture.url}
+          width="160"
+          alt={currentSculpture.alt}
+          style={{
+            transition: "all 0.5s ease",
+            transform: animated ? "scale(1.2)" : "scale(1)",
+            opacity: animated ? 0.9 : 1,
+            borderRadius: "6px",
+          }}
+        />
+      </div>
       
       <div>
         <p>

@@ -9,6 +9,7 @@ export default function SculptureListPage() {
   const [likes, setLikes] = useState({});
   const [color, setColor] = useState("white");
   const [loop, setLoop] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const navigate = useNavigate();
 
   if (loading) return <p>Cargando esculturas desde Neon...</p>;
@@ -69,6 +70,10 @@ export default function SculptureListPage() {
 
   function handlerOnChangeLoop(e) {
     setLoop(e.target.checked);
+  }
+
+  function handlerOnClickShowMore() {
+    setShowMore(!showMore);
   }
 
   return (
@@ -132,8 +137,19 @@ export default function SculptureListPage() {
       <p>{currentSculpture.year}</p>
       {currentSculpture.location && <h3>Location: {currentSculpture.location}</h3>}
       <img src={currentSculpture.url} width="160" alt={currentSculpture.alt} />
-      <p>{currentSculpture.description}</p>
+      
+      <div>
+        <p>
+          {showMore
+            ? currentSculpture.description
+            : currentSculpture.description.slice(0, 100) + "..."}
+        </p>
+        <button onClick={handlerOnClickShowMore}>
+          {showMore ? "Show less" : "Show more"}
+        </button>
+      </div>
 
+      <br />
       <div>
         <button onClick={handlerOnClickLike}>
           {likes[currentSculpture.id] ? "❤️ Liked" : "🤍 Like"}
